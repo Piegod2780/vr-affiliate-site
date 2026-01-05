@@ -64,6 +64,13 @@ document.addEventListener('DOMContentLoaded', function () {
                     addPoints(1);
                 }
             } catch (e) {}
+            // Record voice search usage and check achievements
+            try {
+                if (typeof incrementStat === 'function' && typeof checkAchievements === 'function') {
+                    incrementStat('voiceSearches');
+                    checkAchievements();
+                }
+            } catch (e) {}
         });
         recognition.addEventListener('end', () => {
             voiceBtn.textContent = '🎤 Voice Search';
@@ -106,7 +113,16 @@ document.addEventListener('DOMContentLoaded', function () {
         searchInput.addEventListener('input', filterCards);
     }
     if (categoryFilter) {
-        categoryFilter.addEventListener('change', filterCards);
+        categoryFilter.addEventListener('change', () => {
+            filterCards();
+            // Record a category change and check achievements
+            try {
+                if (typeof incrementStat === 'function' && typeof checkAchievements === 'function') {
+                    incrementStat('categoryChanges');
+                    checkAchievements();
+                }
+            } catch (e) {}
+        });
     }
 
     // Theme toggling
@@ -202,11 +218,138 @@ document.addEventListener('DOMContentLoaded', function () {
         if (colorPickerEl) {
             colorPickerEl.addEventListener('input', (e) => {
                 setAccentColor(e.target.value);
+                // Record a color change and check achievements
+                try {
+                    if (typeof incrementStat === 'function' && typeof checkAchievements === 'function') {
+                        incrementStat('colorsChanged');
+                        checkAchievements();
+                    }
+                } catch (err) {}
             });
         }
     })();
     // Initialize scoreboard display
     updateScoreboard();
+
+    // ============================
+    // Achievements and Stats
+    // ============================
+
+    // Define achievement requirements and metadata
+    const achievementDefs = [
+        { key: 'shopper', metric: 'shopClicks', threshold: 10, title: 'Shopper', icon: '🛍️', desc: 'Clicked 10 Shop Now buttons' },
+        { key: 'collector', metric: 'favoritesAdded', threshold: 5, title: 'Collector', icon: '⭐', desc: 'Added 5 favorites' },
+        { key: 'explorer', metric: 'quickViews', threshold: 10, title: 'Explorer', icon: '🔍', desc: 'Opened 10 Quick Views' },
+        { key: 'quizMaster', metric: 'quizCompleted', threshold: 1, title: 'Quiz Master', icon: '🎓', desc: 'Completed the quiz' },
+        { key: 'voiceSearcher', metric: 'voiceSearches', threshold: 1, title: 'Voice Searcher', icon: '🎤', desc: 'Used voice search' },
+        { key: 'stylist', metric: 'colorsChanged', threshold: 1, title: 'Custom Stylist', icon: '🎨', desc: 'Changed the accent color' },
+        { key: 'categoryExplorer', metric: 'categoryChanges', threshold: 5, title: 'Category Explorer', icon: '🗂️', desc: 'Explored 5 categories' },
+        { key: 'sortMaster', metric: 'sortChanges', threshold: 1, title: 'Sort Master', icon: '↕️', desc: 'Used sorting options' },
+        { key: 'randomExplorer', metric: 'surprises', threshold: 1, title: 'Random Explorer', icon: '🎲', desc: 'Used the Surprise Me button' },
+        { key: 'memoryMaster', metric: 'memoryGamesCompleted', threshold: 1, title: 'Memory Master', icon: '🧠', desc: 'Completed the Memory Match Game' }
+    ];
+
+    // Retrieve persistent statistics from localStorage
+    function getStats() {
+        try {
+            return JSON.parse(localStorage.getItem('userStats')) || {};
+        } catch (e) {
+            return {};
+        }
+    }
+    // Save stats to storage
+    function saveStats(stats) {
+        localStorage.setItem('userStats', JSON.stringify(stats));
+    }
+    // Increment a specific stat counter
+    function incrementStat(metric) {
+        const stats = getStats();
+        stats[metric] = (stats[metric] || 0) + 1;
+        saveStats(stats);
+    }
+    // Retrieve unlocked achievements mapping
+    function getUnlockedAchievements() {
+        try {
+            return JSON.parse(localStorage.getItem('achievementsUnlocked')) || {};
+        } catch (e) {
+            return {};
+        }
+    }
+    // Save unlocked achievements
+    function saveUnlockedAchievements(data) {
+        localStorage.setItem('achievementsUnlocked', JSON.stringify(data));
+    }
+    // Update the achievement board display
+    function updateAchievementBoard() {
+        const board = document.getElementById('achievement-board');
+        const section = document.getElementById('achievements-section');
+        if (!board || !section) return;
+        const unlocked = getUnlockedAchievements();
+        // If there are any achievements defined, always show the section
+        section.style.display = 'block';
+        board.innerHTML = '';
+        achievementDefs.forEach(def => {
+            const item = document.createElement('div');
+            item.className = 'achievement';
+            // Add locked class if not yet unlocked
+            if (!unlocked[def.key]) {
+                item.classList.add('locked');
+            }
+            item.innerHTML = `<span>${def.icon}</span><span>${def.title}</span>`;
+            // Optionally add title attribute for description
+            item.title = def.desc;
+            board.appendChild(item);
+        });
+    }
+    // Trigger confetti celebration when unlocking an achievement
+    function triggerConfetti() {
+        const container = document.getElementById('confetti-container');
+        if (!container) return;
+        const colors = ['#FF6B6B', '#FFD93D', '#6BCB77', '#4D96FF', '#845EC2'];
+        const count = 50;
+        for (let i = 0; i < count; i++) {
+            const piece = document.createElement('div');
+            piece.className = 'confetti-piece';
+            piece.style.left = Math.random() * 100 + '%';
+            piece.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+            piece.style.animationDelay = (Math.random() * 0.5) + 's';
+            piece.style.opacity = (0.6 + Math.random() * 0.4).toString();
+            container.appendChild(piece);
+            // Remove after animation ends
+            setTimeout(() => {
+                piece.remove();
+            }, 3500);
+        }
+    }
+    // Check whether any achievements have been unlocked
+    function checkAchievements() {
+        const stats = getStats();
+        const unlocked = getUnlockedAchievements();
+        let unlockedNew = false;
+        achievementDefs.forEach(def => {
+            if (!unlocked[def.key]) {
+                const value = stats[def.metric] || 0;
+                if (value >= def.threshold) {
+                    unlocked[def.key] = true;
+                    unlockedNew = true;
+                }
+            }
+        });
+        if (unlockedNew) {
+            saveUnlockedAchievements(unlocked);
+            updateAchievementBoard();
+            // Celebrate unlocking one or more achievements
+            triggerConfetti();
+            // Optionally award bonus points per achievement unlocked
+            try {
+                if (typeof addPoints === 'function') {
+                    addPoints(5);
+                }
+            } catch (e) {}
+        }
+    }
+    // Initialize the achievements board on page load
+    updateAchievementBoard();
 
     // Sorting functionality for accessories
     (function initSorting() {
@@ -240,6 +383,13 @@ document.addEventListener('DOMContentLoaded', function () {
             sortCards();
             // Reapply filtering after sorting
             if (typeof filterCards === 'function') filterCards();
+            // Record a sort change and check achievements
+            try {
+                if (typeof incrementStat === 'function' && typeof checkAchievements === 'function') {
+                    incrementStat('sortChanges');
+                    checkAchievements();
+                }
+            } catch (e) {}
         });
     })();
 
@@ -306,6 +456,13 @@ document.addEventListener('DOMContentLoaded', function () {
             try {
                 if (typeof addPoints === 'function') {
                     addPoints(1);
+                }
+            } catch (e) {}
+            // Record a shop click in stats and check achievements
+            try {
+                if (typeof incrementStat === 'function' && typeof checkAchievements === 'function') {
+                    incrementStat('shopClicks');
+                    checkAchievements();
                 }
             } catch (e) {}
         });
@@ -427,6 +584,13 @@ document.addEventListener('DOMContentLoaded', function () {
                     addPoints(5);
                 }
             } catch (e) {}
+            // Record a favorite addition and check achievements
+            try {
+                if (typeof incrementStat === 'function' && typeof checkAchievements === 'function') {
+                    incrementStat('favoritesAdded');
+                    checkAchievements();
+                }
+            } catch (e) {}
         }
         saveFavorites(favs);
         updateCardFavoriteIcons();
@@ -511,6 +675,13 @@ document.addEventListener('DOMContentLoaded', function () {
                     addPoints(2);
                 }
             } catch (e) {}
+            // Record a surprise use and check achievements
+            try {
+                if (typeof incrementStat === 'function' && typeof checkAchievements === 'function') {
+                    incrementStat('surprises');
+                    checkAchievements();
+                }
+            } catch (e) {}
         });
     }
     // Dynamically add favorite icons and quick view buttons to each card
@@ -548,6 +719,13 @@ document.addEventListener('DOMContentLoaded', function () {
                         addPoints(1);
                     }
                 } catch (e) {}
+                    // Record quick view and check achievements
+                    try {
+                        if (typeof incrementStat === 'function' && typeof checkAchievements === 'function') {
+                            incrementStat('quickViews');
+                            checkAchievements();
+                        }
+                    } catch (e) {}
             });
         }
     });
@@ -752,6 +930,13 @@ document.addEventListener('DOMContentLoaded', function () {
                 addPoints(10);
             }
         } catch (e) {}
+        // Record quiz completion and check achievements
+        try {
+            if (typeof incrementStat === 'function' && typeof checkAchievements === 'function') {
+                incrementStat('quizCompleted');
+                checkAchievements();
+            }
+        } catch (e) {}
         quizContent.innerHTML = '';
         const [useCase, budget, priority] = responses;
         // Determine recommended product names based on responses
@@ -857,6 +1042,113 @@ document.addEventListener('DOMContentLoaded', function () {
                 quizModal.style.display = 'none';
                 document.body.style.overflow = '';
             }
+        });
+    }
+
+    /** MEMORY MATCH GAME **/
+    // Variables to track memory game state
+    let firstMemoryCard = null;
+    let memoryLock = false;
+    let memoryPairsMatched = 0;
+
+    // Start a new memory game: create shuffled card grid
+    function startMemoryGame() {
+        firstMemoryCard = null;
+        memoryLock = false;
+        memoryPairsMatched = 0;
+        const board = document.getElementById('memory-game-board');
+        const restartBtn = document.getElementById('restart-memory-game');
+        if (board) board.innerHTML = '';
+        if (restartBtn) restartBtn.style.display = 'none';
+        // Define VR-themed icons (duplicate each for pairs)
+        const icons = ['🎮','🔫','🧤','🎧','🧠','🎒','🕶️','🪀'];
+        const pairs = icons.concat(icons).sort(() => Math.random() - 0.5);
+        pairs.forEach(icon => {
+            const card = document.createElement('div');
+            card.className = 'memory-card';
+            card.dataset.icon = icon;
+            // Use a span to hold the icon and hide it initially
+            const span = document.createElement('span');
+            span.textContent = icon;
+            span.style.visibility = 'hidden';
+            card.appendChild(span);
+            card.addEventListener('click', () => handleMemoryCardClick(card));
+            if (board) board.appendChild(card);
+        });
+    }
+
+    // Handle card click logic
+    function handleMemoryCardClick(card) {
+        if (memoryLock || card.classList.contains('flip')) return;
+        const span = card.querySelector('span');
+        if (!span) return;
+        span.style.visibility = 'visible';
+        card.classList.add('flip');
+        if (!firstMemoryCard) {
+            firstMemoryCard = card;
+            return;
+        }
+        if (card.dataset.icon === firstMemoryCard.dataset.icon) {
+            // Match found
+            memoryPairsMatched++;
+            addPoints(5);
+            incrementStat('memoryMatches');
+            firstMemoryCard = null;
+            if (memoryPairsMatched === 8) {
+                // Game completed
+                incrementStat('memoryGamesCompleted');
+                checkAchievements();
+                const restartBtn = document.getElementById('restart-memory-game');
+                if (restartBtn) restartBtn.style.display = 'block';
+            }
+        } else {
+            // Not a match: flip both cards back after delay
+            memoryLock = true;
+            setTimeout(() => {
+                card.classList.remove('flip');
+                firstMemoryCard.classList.remove('flip');
+                card.querySelector('span').style.visibility = 'hidden';
+                firstMemoryCard.querySelector('span').style.visibility = 'hidden';
+                firstMemoryCard = null;
+                memoryLock = false;
+            }, 800);
+        }
+    }
+
+    // Open the memory game modal and start a game
+    function openMemoryGame() {
+        const modal = document.getElementById('memory-game-modal');
+        if (!modal) return;
+        modal.style.display = 'flex';
+        document.body.style.overflow = 'hidden';
+        startMemoryGame();
+    }
+
+    // Close the memory game modal
+    function closeMemoryGame() {
+        const modal = document.getElementById('memory-game-modal');
+        if (!modal) return;
+        modal.style.display = 'none';
+        document.body.style.overflow = '';
+    }
+
+    // Hook up memory game buttons
+    const startMemoryBtn = document.getElementById('start-memory-game');
+    const closeMemoryBtn = document.getElementById('close-memory-game');
+    const restartMemoryBtn = document.getElementById('restart-memory-game');
+    if (startMemoryBtn) {
+        startMemoryBtn.addEventListener('click', () => {
+            openMemoryGame();
+        });
+    }
+    if (closeMemoryBtn) {
+        closeMemoryBtn.addEventListener('click', () => {
+            closeMemoryGame();
+        });
+    }
+    if (restartMemoryBtn) {
+        restartMemoryBtn.addEventListener('click', () => {
+            startMemoryGame();
         });
     }
 });
