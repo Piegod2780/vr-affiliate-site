@@ -1,0 +1,387 @@
+/* Global styles */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    background-color: #121417;
+    color: #f5f5f5;
+    line-height: 1.6;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+/* Header */
+header {
+    background-color: #1e2228;
+    padding: 1rem 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+}
+
+header h1 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+}
+
+/* Theme toggle button */
+.theme-toggle {
+    background: none;
+    border: none;
+    color: #f5f5f5;
+    font-size: 1.4rem;
+    cursor: pointer;
+    margin-left: auto;
+}
+
+/* Adjust button color in light theme */
+body.light-theme .theme-toggle {
+    color: #1e2228;
+}
+
+/* Hero section */
+.hero {
+    position: relative;
+    width: 100%;
+    height: 400px;
+    background-image: url('../images/hero.png');
+    background-position: center;
+    background-size: cover;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: #fff;
+    overflow: hidden;
+}
+
+.hero::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.55);
+}
+
+.hero-content {
+    position: relative;
+    z-index: 1;
+    max-width: 800px;
+    padding: 0 1rem;
+}
+
+.hero-content h2 {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+}
+
+.hero-content p {
+    font-size: 1.2rem;
+    margin-bottom: 1.5rem;
+}
+
+.hero-content .cta-btn {
+    display: inline-block;
+    padding: 0.75rem 1.5rem;
+    background-color: #0077ff;
+    color: #fff;
+    border-radius: 4px;
+    font-weight: 600;
+    transition: background-color 0.2s ease-in-out;
+}
+
+.hero-content .cta-btn:hover {
+    background-color: #005fcc;
+}
+
+/* Sections */
+section {
+    padding: 2rem 1rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+section h2 {
+    font-size: 2rem;
+    margin-bottom: 1.5rem;
+    color: #fff;
+    border-left: 4px solid #0077ff;
+    padding-left: 0.75rem;
+}
+
+/* Card grid */
+.card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.5rem;
+}
+
+/* Individual card */
+.card {
+    background-color: #1e2228;
+    border-radius: 8px;
+    padding: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.5);
+}
+
+.card h3 {
+    font-size: 1.25rem;
+    margin-bottom: 0.75rem;
+    color: #00aaff;
+}
+
+.card ul {
+    list-style: disc inside;
+    margin-bottom: 1rem;
+}
+
+.card ul li {
+    margin-bottom: 0.5rem;
+    font-size: 0.9rem;
+    color: #d4d7dd;
+}
+
+.card .btn {
+    align-self: flex-start;
+    padding: 0.6rem 1.2rem;
+    background-color: #0077ff;
+    color: #fff;
+    border-radius: 4px;
+    font-weight: 600;
+    transition: background-color 0.2s ease-in-out;
+}
+
+.card .btn:hover {
+    background-color: #005fcc;
+}
+
+/* Favorite icon inside card */
+.favorite-icon {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    font-size: 1.2rem;
+    cursor: pointer;
+    color: #bbbbbb;
+    transition: color 0.2s ease-in-out;
+}
+.favorite-icon.favorited {
+    color: #ffcc00;
+}
+
+/* Details/Quick View button */
+.details-btn {
+    margin-top: 0.5rem;
+    padding: 0.5rem 1rem;
+    background-color: #333;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out;
+}
+.details-btn:hover {
+    background-color: #555;
+}
+
+/* Modal overlay for quick view */
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+.modal-content {
+    background-color: #1e2228;
+    color: #f5f5f5;
+    padding: 2rem;
+    border-radius: 8px;
+    max-width: 600px;
+    width: 90%;
+    position: relative;
+    max-height: 80vh;
+    overflow-y: auto;
+}
+.close-modal {
+    position: absolute;
+    top: 0.5rem;
+    right: 1rem;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: #f5f5f5;
+}
+
+/* Scroll to top button */
+.scroll-top {
+    position: fixed;
+    bottom: 1.5rem;
+    right: 1.5rem;
+    background-color: #0077ff;
+    color: #fff;
+    border: none;
+    border-radius: 50%;
+    width: 48px;
+    height: 48px;
+    font-size: 1.4rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
+    z-index: 1001;
+}
+.scroll-top:hover {
+    background-color: #005fcc;
+}
+
+/* Voice search button */
+.voice-btn {
+    background-color: #444;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    padding: 0.65rem 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    width: 100%;
+    margin-bottom: 1.5rem;
+    transition: background-color 0.2s ease-in-out;
+}
+.voice-btn:hover {
+    background-color: #555;
+}
+
+/* Font size slider in header */
+#font-size-slider {
+    width: 120px;
+    margin-left: 1rem;
+}
+
+/* Chart container styling */
+.chart-container {
+    position: relative;
+    height: 250px;
+}
+
+/* Light theme overrides for new elements */
+body.light-theme .voice-btn {
+    background-color: #e0e0e0;
+    color: #1e2228;
+}
+body.light-theme .voice-btn:hover {
+    background-color: #cccccc;
+}
+body.light-theme #font-size-slider {
+    /* no special override needed */
+}
+
+/* Light theme overrides for modal and buttons */
+body.light-theme .modal-content {
+    background-color: #ffffff;
+    color: #1e2228;
+}
+body.light-theme .close-modal {
+    color: #1e2228;
+}
+body.light-theme .details-btn {
+    background-color: #e0e0e0;
+    color: #1e2228;
+}
+body.light-theme .details-btn:hover {
+    background-color: #cccccc;
+}
+body.light-theme .favorite-icon {
+    color: #666666;
+}
+body.light-theme .favorite-icon.favorited {
+    color: #ffcc00;
+}
+body.light-theme .scroll-top {
+    background-color: #0077ff;
+    color: #ffffff;
+}
+body.light-theme .scroll-top:hover {
+    background-color: #005fcc;
+}
+
+/* Light theme overrides */
+body.light-theme {
+    background-color: #f2f4f8;
+    color: #1e2228;
+}
+
+body.light-theme header {
+    background-color: #ffffff;
+    color: #1e2228;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+body.light-theme .hero {
+    color: #fff;
+}
+
+body.light-theme .hero::after {
+    background: rgba(0, 0, 0, 0.35);
+}
+
+body.light-theme section h2 {
+    color: #1e2228;
+    border-color: #0077ff;
+}
+
+body.light-theme .card {
+    background-color: #ffffff;
+    color: #1e2228;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+body.light-theme .card h3 {
+    color: #0077ff;
+}
+
+body.light-theme .card ul li {
+    color: #333333;
+}
+
+body.light-theme .card .btn {
+    background-color: #0077ff;
+    color: #ffffff;
+}
+
+body.light-theme .card .btn:hover {
+    background-color: #005fcc;
+}
+
+/* Accessories section image */
+.accessories-image {
+    width: 100%;
+    max-width: 100%;
+    border-radius: 8px;
+    margin-bottom: 1.5rem;
+}
