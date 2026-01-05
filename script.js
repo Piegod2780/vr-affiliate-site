@@ -415,4 +415,301 @@ document.addEventListener('DOMContentLoaded', function () {
     // After injecting icons and buttons, update their states based on saved favorites
     updateCardFavoriteIcons();
     updateFavoritesList();
+
+    /**
+     * COMPARISON MODE
+     *
+     * Adds a compare icon to each card. Users can select multiple items (up to 3) to compare
+     * side by side in a modal. A bottom bar appears when items are selected, showing the
+     * current count and a button to launch the comparison.
+     */
+    function getCompareList() {
+        try {
+            return JSON.parse(localStorage.getItem('compareList')) || [];
+        } catch (e) {
+            return [];
+        }
+    }
+    function saveCompareList(list) {
+        localStorage.setItem('compareList', JSON.stringify(list));
+    }
+    function toggleCompare(name) {
+        let list = getCompareList();
+        const index = list.indexOf(name);
+        if (index >= 0) {
+            list.splice(index, 1);
+        } else {
+            // Limit to 3 items to prevent cluttered comparisons
+            if (list.length >= 3) {
+                list.shift();
+            }
+            list.push(name);
+        }
+        saveCompareList(list);
+        updateCompareIcons();
+        updateCompareBar();
+    }
+    function updateCompareIcons() {
+        const list = getCompareList();
+        document.querySelectorAll('.compare-icon').forEach(icon => {
+            const card = icon.closest('.card');
+            const name = card ? card.dataset.name : null;
+            if (name && list.includes(name)) {
+                icon.classList.add('selected');
+                icon.textContent = '✅';
+            } else {
+                icon.classList.remove('selected');
+                icon.textContent = '⬜';
+            }
+        });
+    }
+    function updateCompareBar() {
+        const compareBar = document.getElementById('compare-bar');
+        const compareCount = document.getElementById('compare-count');
+        const list = getCompareList();
+        if (!compareBar || !compareCount) return;
+        if (list.length === 0) {
+            compareBar.style.display = 'none';
+        } else {
+            compareBar.style.display = 'flex';
+            compareCount.textContent = `${list.length} item${list.length > 1 ? 's' : ''} selected for comparison`;
+        }
+    }
+    function openCompareModal() {
+        const list = getCompareList();
+        const compareModal = document.getElementById('compare-modal');
+        const compareContent = document.getElementById('compare-content');
+        if (!compareModal || !compareContent) return;
+        compareContent.innerHTML = '';
+        list.forEach(name => {
+            const card = Array.from(document.querySelectorAll('.card-grid > .card')).find(c => c.dataset.name === name);
+            if (card) {
+                const clone = card.cloneNode(true);
+                // Remove interactive elements (favorite icon, quick view, compare icon, details button)
+                const favIcon = clone.querySelector('.favorite-icon');
+                if (favIcon) favIcon.remove();
+                const detBtn = clone.querySelector('.details-btn');
+                if (detBtn) detBtn.remove();
+                const compIcon = clone.querySelector('.compare-icon');
+                if (compIcon) compIcon.remove();
+                compareContent.appendChild(clone);
+            }
+        });
+        compareModal.style.display = 'flex';
+        document.body.style.overflow = 'hidden';
+    }
+    function closeCompareModal() {
+        const compareModal = document.getElementById('compare-modal');
+        if (compareModal) {
+            compareModal.style.display = 'none';
+            document.body.style.overflow = '';
+        }
+    }
+    // Add compare icons and update state
+    allCards.forEach((card) => {
+        if (!card.querySelector('.compare-icon')) {
+            const compIcon = document.createElement('span');
+            compIcon.className = 'compare-icon';
+            compIcon.textContent = '⬜';
+            card.appendChild(compIcon);
+            compIcon.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const name = card.dataset.name;
+                if (name) {
+                    toggleCompare(name);
+                }
+            });
+        }
+    });
+    // Initialize compare icons and bar
+    updateCompareIcons();
+    updateCompareBar();
+    // Compare bar events
+    const compareNowBtn = document.getElementById('compare-now-btn');
+    if (compareNowBtn) {
+        compareNowBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            openCompareModal();
+        });
+    }
+    const closeCompareBtn = document.querySelector('.close-compare');
+    if (closeCompareBtn) {
+        closeCompareBtn.addEventListener('click', closeCompareModal);
+    }
+    const compareModal = document.getElementById('compare-modal');
+    if (compareModal) {
+        compareModal.addEventListener('click', (e) => {
+            if (e.target === compareModal) {
+                closeCompareModal();
+            }
+        });
+    }
+
+    /**
+     * RECOMMENDATION QUIZ
+     *
+     * Presents a multi-step quiz to help visitors choose products based on their use case,
+     * budget and priorities. Recommendations are displayed at the end of the quiz.
+     */
+    const startQuizBtn = document.getElementById('start-quiz-btn');
+    const quizModal = document.getElementById('quiz-modal');
+    const quizContent = document.getElementById('quiz-content');
+    const closeQuizBtn = document.querySelector('.close-quiz');
+    const quizQuestions = [
+        {
+            question: 'What do you primarily use VR for?',
+            answers: ['Gaming', 'Fitness', 'Productivity', 'Social']
+        },
+        {
+            question: 'What is your budget?',
+            answers: ['Low', 'Medium', 'High']
+        },
+        {
+            question: 'Which feature matters most to you?',
+            answers: ['Comfort', 'Audio', 'Haptics', 'Battery']
+        }
+    ];
+    function showQuizQuestion(index, responses) {
+        if (!quizContent) return;
+        quizContent.innerHTML = '';
+        if (index >= quizQuestions.length) {
+            // Compute and display recommendations
+            displayRecommendations(responses);
+            return;
+        }
+        const qObj = quizQuestions[index];
+        const qElem = document.createElement('h3');
+        qElem.textContent = qObj.question;
+        quizContent.appendChild(qElem);
+        const answersContainer = document.createElement('div');
+        answersContainer.style.display = 'flex';
+        answersContainer.style.flexDirection = 'column';
+        answersContainer.style.marginTop = '1rem';
+        qObj.answers.forEach(ans => {
+            const btn = document.createElement('button');
+            btn.textContent = ans;
+            btn.style.margin = '0.5rem 0';
+            btn.style.padding = '0.65rem 1rem';
+            btn.style.backgroundColor = '#0077ff';
+            btn.style.color = '#fff';
+            btn.style.border = 'none';
+            btn.style.borderRadius = '4px';
+            btn.style.fontWeight = '600';
+            btn.style.cursor = 'pointer';
+            btn.addEventListener('click', () => {
+                responses.push(ans);
+                showQuizQuestion(index + 1, responses);
+            });
+            answersContainer.appendChild(btn);
+        });
+        quizContent.appendChild(answersContainer);
+    }
+    function displayRecommendations(responses) {
+        if (!quizContent) return;
+        quizContent.innerHTML = '';
+        const [useCase, budget, priority] = responses;
+        // Determine recommended product names based on responses
+        let recs = [];
+        function addUnique(name) {
+            if (!recs.includes(name)) recs.push(name);
+        }
+        // Use case mapping
+        if (useCase === 'Gaming') {
+            addUnique('VR Gun Stock (AMVR)');
+            addUnique('Shadow Shot VR Bow');
+            addUnique('Weighted Golf Club Attachment (DriVR Elite)');
+        } else if (useCase === 'Fitness') {
+            addUnique('Ringside Weighted Exercise Gloves');
+            addUnique('Skywin VR Mat');
+            addUnique('Weighted Golf Club Attachment (DriVR Elite)');
+        } else if (useCase === 'Productivity') {
+            addUnique('Meta Quest Link Cable');
+            addUnique('Syntech 16 ft Link Cable');
+            addUnique('Casematix Hard Case');
+        } else if (useCase === 'Social') {
+            addUnique('SteelSeries Arctis Nova 4 Headphones');
+            addUnique('PRISMXR Low-Latency Earphones');
+            addUnique('KIWI Design K4 Duo Audio & Battery Strap');
+        }
+        // Priority mapping
+        if (priority === 'Comfort') {
+            addUnique('KIWI Design K4 Mini Head Strap');
+            addUnique('BOBOVR M3 Pro Head Strap');
+        } else if (priority === 'Audio') {
+            addUnique('SteelSeries Arctis Nova 4 Headphones');
+            addUnique('PRISMXR Low-Latency Earphones');
+        } else if (priority === 'Haptics') {
+            addUnique('Woojer Vest 3 Haptic Vest');
+            addUnique('bHaptics TactSuit X16');
+        } else if (priority === 'Battery') {
+            addUnique('BOBOVR S3 Pro Battery Strap');
+            addUnique('YOGES Charging Station');
+            addUnique('PRISMXR Carina D1 Charging Dock');
+        }
+        // Budget mapping (adjust recs order or add items for high budgets)
+        if (budget === 'High') {
+            addUnique('Roto VR Explorer Chair');
+            addUnique('VIVE Ultimate Tracker');
+        }
+        // Create header
+        const header = document.createElement('h3');
+        header.textContent = 'Recommended for you';
+        quizContent.appendChild(header);
+        const container = document.createElement('div');
+        container.className = 'compare-content';
+        recs.slice(0, 4).forEach(name => {
+            const card = Array.from(document.querySelectorAll('.card-grid > .card')).find(c => c.dataset.name === name);
+            if (card) {
+                const clone = card.cloneNode(true);
+                // Remove interactive elements
+                const favIcon = clone.querySelector('.favorite-icon');
+                if (favIcon) favIcon.remove();
+                const detBtn = clone.querySelector('.details-btn');
+                if (detBtn) detBtn.remove();
+                const compIcon = clone.querySelector('.compare-icon');
+                if (compIcon) compIcon.remove();
+                clone.style.flex = '1 1 45%';
+                container.appendChild(clone);
+            }
+        });
+        quizContent.appendChild(container);
+        const restartBtn = document.createElement('button');
+        restartBtn.textContent = 'Retake Quiz';
+        restartBtn.style.marginTop = '1rem';
+        restartBtn.style.padding = '0.65rem 1rem';
+        restartBtn.style.backgroundColor = '#0077ff';
+        restartBtn.style.color = '#fff';
+        restartBtn.style.border = 'none';
+        restartBtn.style.borderRadius = '4px';
+        restartBtn.style.fontWeight = '600';
+        restartBtn.style.cursor = 'pointer';
+        restartBtn.addEventListener('click', () => {
+            quizResponses = [];
+            showQuizQuestion(0, []);
+        });
+        quizContent.appendChild(restartBtn);
+    }
+    let quizResponses = [];
+    if (startQuizBtn && quizModal && quizContent) {
+        startQuizBtn.addEventListener('click', () => {
+            quizResponses = [];
+            showQuizQuestion(0, []);
+            quizModal.style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+        });
+    }
+    if (closeQuizBtn) {
+        closeQuizBtn.addEventListener('click', () => {
+            quizModal.style.display = 'none';
+            document.body.style.overflow = '';
+        });
+    }
+    if (quizModal) {
+        quizModal.addEventListener('click', (e) => {
+            if (e.target === quizModal) {
+                quizModal.style.display = 'none';
+                document.body.style.overflow = '';
+            }
+        });
+    }
 });
