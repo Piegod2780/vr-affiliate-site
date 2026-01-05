@@ -58,6 +58,12 @@ document.addEventListener('DOMContentLoaded', function () {
                 searchInput.value = transcript;
                 filterCards();
             }
+            // Award points for using voice search
+            try {
+                if (typeof addPoints === 'function') {
+                    addPoints(1);
+                }
+            } catch (e) {}
         });
         recognition.addEventListener('end', () => {
             voiceBtn.textContent = '🎤 Voice Search';
@@ -128,6 +134,115 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
+    // ================================
+    // Scoreboard, Accent Color & Sorting
+    // ================================
+    const scoreValueEl = document.getElementById('score-value');
+    const achievementDisplay = document.getElementById('achievement-display');
+    const colorPickerEl = document.getElementById('color-picker');
+    const sortFilter = document.getElementById('sort-filter');
+
+    // Adjust the brightness of a hex color by a factor (0.0–1.0)
+    function adjustBrightness(hex, factor) {
+        let h = hex.replace('#', '');
+        if (h.length === 3) {
+            h = h[0] + h[0] + h[1] + h[1] + h[2] + h[2];
+        }
+        let r = parseInt(h.substring(0, 2), 16);
+        let g = parseInt(h.substring(2, 4), 16);
+        let b = parseInt(h.substring(4, 6), 16);
+        r = Math.min(255, Math.max(0, Math.floor(r * factor)));
+        g = Math.min(255, Math.max(0, Math.floor(g * factor)));
+        b = Math.min(255, Math.max(0, Math.floor(b * factor)));
+        const hr = r.toString(16).padStart(2, '0');
+        const hg = g.toString(16).padStart(2, '0');
+        const hb = b.toString(16).padStart(2, '0');
+        return '#' + hr + hg + hb;
+    }
+    function getPoints() {
+        const pts = parseInt(localStorage.getItem('userPoints'), 10);
+        return isNaN(pts) ? 0 : pts;
+    }
+    function savePoints(value) {
+        localStorage.setItem('userPoints', value);
+    }
+    function updateScoreboard() {
+        const pts = getPoints();
+        if (scoreValueEl) scoreValueEl.textContent = pts;
+        if (achievementDisplay) {
+            let badge = '';
+            if (pts >= 100) badge = '🏆 VR Master';
+            else if (pts >= 50) badge = '🎮 VR Pro';
+            else if (pts >= 20) badge = '✨ Enthusiast';
+            achievementDisplay.textContent = badge;
+        }
+    }
+    function addPoints(amount) {
+        const newPts = getPoints() + amount;
+        savePoints(newPts);
+        updateScoreboard();
+    }
+    function setAccentColor(color) {
+        const hoverColor = adjustBrightness(color, 0.85);
+        document.documentElement.style.setProperty('--accent-color', color);
+        document.documentElement.style.setProperty('--accent-color-hover', hoverColor);
+        if (colorPickerEl) colorPickerEl.value = color;
+        localStorage.setItem('accentColor', color);
+    }
+    // Initialize accent color from storage or default
+    (function initAccentColor() {
+        const saved = localStorage.getItem('accentColor');
+        if (saved) {
+            setAccentColor(saved);
+        } else {
+            // Use current CSS variable as default
+            const computed = getComputedStyle(document.documentElement).getPropertyValue('--accent-color').trim() || '#0077ff';
+            setAccentColor(computed);
+        }
+        if (colorPickerEl) {
+            colorPickerEl.addEventListener('input', (e) => {
+                setAccentColor(e.target.value);
+            });
+        }
+    })();
+    // Initialize scoreboard display
+    updateScoreboard();
+
+    // Sorting functionality for accessories
+    (function initSorting() {
+        if (!sortFilter) return;
+        // Assign original index to each accessory card
+        const accessoryList = Array.from(document.querySelectorAll('#accessories-grid .card'));
+        accessoryList.forEach((card, idx) => {
+            card.dataset.index = idx;
+        });
+        function sortCards() {
+            const grid = document.getElementById('accessories-grid');
+            if (!grid) return;
+            let cards = Array.from(grid.children);
+            const mode = sortFilter.value;
+            // Retrieve trending counts for popularity sort
+            const counts = typeof getTrendingCounts === 'function' ? getTrendingCounts() : {};
+            cards.sort((a, b) => {
+                if (mode === 'alphabetical') {
+                    return a.dataset.name.localeCompare(b.dataset.name);
+                } else if (mode === 'popularity') {
+                    return (counts[b.dataset.name] || 0) - (counts[a.dataset.name] || 0);
+                } else if (mode === 'category') {
+                    return a.dataset.category.localeCompare(b.dataset.category);
+                } else {
+                    return parseInt(a.dataset.index, 10) - parseInt(b.dataset.index, 10);
+                }
+            });
+            cards.forEach(card => grid.appendChild(card));
+        }
+        sortFilter.addEventListener('change', () => {
+            sortCards();
+            // Reapply filtering after sorting
+            if (typeof filterCards === 'function') filterCards();
+        });
+    })();
+
     // Trending items tracking
     const trendingSection = document.getElementById('trending-section');
     const trendingListContainer = document.getElementById('trending-list');
@@ -187,6 +302,12 @@ document.addEventListener('DOMContentLoaded', function () {
                 saveTrendingCounts(counts);
                 updateTrendingList();
             }
+            // Award points for clicking a Shop Now button
+            try {
+                if (typeof addPoints === 'function') {
+                    addPoints(1);
+                }
+            } catch (e) {}
         });
     });
     // Initialize trending list on page load
@@ -300,6 +421,12 @@ document.addEventListener('DOMContentLoaded', function () {
             favs.splice(index, 1);
         } else {
             favs.push(name);
+            // Award points for adding a new favorite
+            try {
+                if (typeof addPoints === 'function') {
+                    addPoints(5);
+                }
+            } catch (e) {}
         }
         saveFavorites(favs);
         updateCardFavoriteIcons();
@@ -378,6 +505,12 @@ document.addEventListener('DOMContentLoaded', function () {
             const randomIndex = Math.floor(Math.random() * visibleCards.length);
             const randomCard = visibleCards[randomIndex];
             openQuickView(randomCard);
+            // Award points for surprise pick
+            try {
+                if (typeof addPoints === 'function') {
+                    addPoints(2);
+                }
+            } catch (e) {}
         });
     }
     // Dynamically add favorite icons and quick view buttons to each card
@@ -409,6 +542,12 @@ document.addEventListener('DOMContentLoaded', function () {
                 e.preventDefault();
                 e.stopPropagation();
                 openQuickView(card);
+                // Award points for viewing details
+                try {
+                    if (typeof addPoints === 'function') {
+                        addPoints(1);
+                    }
+                } catch (e) {}
             });
         }
     });
@@ -590,7 +729,8 @@ document.addEventListener('DOMContentLoaded', function () {
             btn.textContent = ans;
             btn.style.margin = '0.5rem 0';
             btn.style.padding = '0.65rem 1rem';
-            btn.style.backgroundColor = '#0077ff';
+            // Use accent color for answer buttons
+            btn.style.backgroundColor = 'var(--accent-color)';
             btn.style.color = '#fff';
             btn.style.border = 'none';
             btn.style.borderRadius = '4px';
@@ -606,6 +746,12 @@ document.addEventListener('DOMContentLoaded', function () {
     }
     function displayRecommendations(responses) {
         if (!quizContent) return;
+        // Award points for completing the quiz
+        try {
+            if (typeof addPoints === 'function') {
+                addPoints(10);
+            }
+        } catch (e) {}
         quizContent.innerHTML = '';
         const [useCase, budget, priority] = responses;
         // Determine recommended product names based on responses
@@ -677,7 +823,8 @@ document.addEventListener('DOMContentLoaded', function () {
         restartBtn.textContent = 'Retake Quiz';
         restartBtn.style.marginTop = '1rem';
         restartBtn.style.padding = '0.65rem 1rem';
-        restartBtn.style.backgroundColor = '#0077ff';
+        // Use accent color for the restart button
+        restartBtn.style.backgroundColor = 'var(--accent-color)';
         restartBtn.style.color = '#fff';
         restartBtn.style.border = 'none';
         restartBtn.style.borderRadius = '4px';

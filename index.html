@@ -14,6 +14,14 @@
     <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme">🌓</button>
     <!-- Font size slider to adjust text size -->
     <input type="range" id="font-size-slider" min="0.8" max="1.4" step="0.05" value="1" title="Adjust text size" style="margin-left:1rem;">
+
+    <!-- Scoreboard and accent color picker -->
+    <div class="scoreboard">
+        <span>Score: <span id="score-value">0</span></span>
+        <span id="achievement-display"></span>
+        <label for="color-picker">Accent:</label>
+        <input type="color" id="color-picker" value="#0077ff"/>
+    </div>
 </header>
 <!-- Hero section with tagline but no external call‑to‑action -->
 <section class="hero">
@@ -68,6 +76,13 @@
     </div>
 </section>
 
+<!-- Quiz introduction section -->
+<section id="quiz-section">
+    <h2>Find Your Perfect Gear</h2>
+    <p>Not sure which headset or accessory is right for you? Take our quick quiz and get personalized recommendations tailored to your needs.</p>
+    <button id="start-quiz-btn" class="quiz-btn">Start Quiz</button>
+</section>
+
 <!-- Favorites section for user‑selected items -->
 <section id="favorites-section" style="display:none;">
     <h2>Your Favorites</h2>
@@ -82,6 +97,28 @@
         <span class="close-modal" aria-label="Close modal">&times;</span>
         <div id="quick-view-content"></div>
     </div>
+</div>
+
+<!-- Quiz modal overlay -->
+<div id="quiz-modal" class="modal" style="display:none;">
+    <div class="modal-content">
+        <span class="close-quiz" aria-label="Close quiz">&times;</span>
+        <div id="quiz-content"></div>
+    </div>
+</div>
+
+<!-- Comparison modal overlay -->
+<div id="compare-modal" class="modal" style="display:none;">
+    <div class="modal-content">
+        <span class="close-compare" aria-label="Close comparison">&times;</span>
+        <div id="compare-content" class="compare-content"></div>
+    </div>
+</div>
+
+<!-- Compare bar at bottom -->
+<div id="compare-bar" class="compare-bar" style="display:none;">
+    <span id="compare-count">0 items selected for comparison</span>
+    <button id="compare-now-btn" class="compare-btn">Compare Now</button>
 </div>
 
 <!-- Scroll to top button -->
@@ -103,6 +140,15 @@
             <option value="Cables">Cables &amp; Wiring</option>
             <option value="Fitness">Fitness &amp; Mats</option>
             <option value="Misc">Misc &amp; Accessories</option>
+        </select>
+
+        <!-- Sort filter to order accessories -->
+        <label for="sort-filter" style="display:block; margin-bottom:0.5rem; font-weight:500;">Sort by:</label>
+        <select id="sort-filter" style="width:100%; padding:0.65rem; margin-bottom:1rem; border-radius:4px; border:none; font-size:1rem;">
+            <option value="default">Default Order</option>
+            <option value="alphabetical">Alphabetical</option>
+            <option value="popularity">Popularity</option>
+            <option value="category">Category</option>
         </select>
         <!-- Search input to filter accessories by name or description -->
         <input type="text" id="search-input" placeholder="Search accessories..." style="width:100%; padding:0.75rem; margin-bottom:1rem; border-radius:4px; border:none; font-size:1rem;">
