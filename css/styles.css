@@ -174,6 +174,121 @@ section h2 {
     background-color: #005fcc;
 }
 
+/* Favorite icon inside card */
+.favorite-icon {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    font-size: 1.2rem;
+    cursor: pointer;
+    color: #bbbbbb;
+    transition: color 0.2s ease-in-out;
+}
+.favorite-icon.favorited {
+    color: #ffcc00;
+}
+
+/* Details/Quick View button */
+.details-btn {
+    margin-top: 0.5rem;
+    padding: 0.5rem 1rem;
+    background-color: #333;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out;
+}
+.details-btn:hover {
+    background-color: #555;
+}
+
+/* Modal overlay for quick view */
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+.modal-content {
+    background-color: #1e2228;
+    color: #f5f5f5;
+    padding: 2rem;
+    border-radius: 8px;
+    max-width: 600px;
+    width: 90%;
+    position: relative;
+    max-height: 80vh;
+    overflow-y: auto;
+}
+.close-modal {
+    position: absolute;
+    top: 0.5rem;
+    right: 1rem;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: #f5f5f5;
+}
+
+/* Scroll to top button */
+.scroll-top {
+    position: fixed;
+    bottom: 1.5rem;
+    right: 1.5rem;
+    background-color: #0077ff;
+    color: #fff;
+    border: none;
+    border-radius: 50%;
+    width: 48px;
+    height: 48px;
+    font-size: 1.4rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
+    z-index: 1001;
+}
+.scroll-top:hover {
+    background-color: #005fcc;
+}
+
+/* Light theme overrides for modal and buttons */
+body.light-theme .modal-content {
+    background-color: #ffffff;
+    color: #1e2228;
+}
+body.light-theme .close-modal {
+    color: #1e2228;
+}
+body.light-theme .details-btn {
+    background-color: #e0e0e0;
+    color: #1e2228;
+}
+body.light-theme .details-btn:hover {
+    background-color: #cccccc;
+}
+body.light-theme .favorite-icon {
+    color: #666666;
+}
+body.light-theme .favorite-icon.favorited {
+    color: #ffcc00;
+}
+body.light-theme .scroll-top {
+    background-color: #0077ff;
+    color: #ffffff;
+}
+body.light-theme .scroll-top:hover {
+    background-color: #005fcc;
+}
+
 /* Light theme overrides */
 body.light-theme {
     background-color: #f2f4f8;
