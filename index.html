@@ -9,7 +9,9 @@
 </head>
 <body>
 <header>
-<h1>VR Gear &amp; Accessories</h1>
+    <h1>VR Gear &amp; Accessories</h1>
+    <!-- Theme toggle button to switch between dark and light mode -->
+    <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme">🌓</button>
 </header>
 <!-- Hero section with tagline but no external call‑to‑action -->
 <section class="hero">
@@ -22,7 +24,7 @@
 <section>
 <h2>Top VR Headsets</h2>
 <div class="card-grid">
-<div class="card">
+<div class="card" data-category="Headsets" data-name="Meta Quest 3">
 <h3>Meta Quest 3</h3>
 <ul>
 <li>4K+ infinite display with pancake lenses offering around 30 % higher resolution than Quest 2</li>
@@ -30,8 +32,8 @@
 <li>Mixed reality passthrough integrates your physical surroundings for immersive experiences</li>
 <li>Ergonomic design with slim profile, Touch Plus controllers and Direct Touch for natural interactions</li>
 </ul><a class="btn" href="https://www.amazon.com/s?k=Meta+Quest+3&tag=autopromotete-20" target="_blank">Shop Now</a>
-</div>
-<div class="card">
+    </div>
+<div class="card" data-category="Headsets" data-name="Valve Index VR Kit">
 <h3>Valve Index VR Kit</h3>
 <ul>
 <li>Dual 1440 × 1600 LCDs with full RGB per pixel and low‑persistence backlight for sharp visuals</li>
@@ -40,7 +42,7 @@
 <li>High‑precision controllers and SteamVR support (requires PC)</li>
 </ul><a class="btn" href="https://www.amazon.com/s?k=Valve+Index+VR+Kit&tag=autopromotete-20" target="_blank">Shop Now</a>
 </div>
-<div class="card">
+<div class="card" data-category="Headsets" data-name="Meta Quest 3S">
 <h3>Meta Quest 3S (128 GB)</h3>
 <ul>
 <li>1 832 × 1 920 resolution per eye on a single LCD with a 90 Hz refresh rate</li>
@@ -51,12 +53,36 @@
 </div>
 </div>
 </section>
+<!-- Trending section to surface the most clicked accessories -->
+<section id="trending-section" style="display:none;">
+    <h2>Trending Now</h2>
+    <div class="card-grid" id="trending-list">
+        <!-- Trending items will be injected here via JavaScript -->
+    </div>
+</section>
 <!-- Top VR accessories section listing 50 of the most popular add‑ons -->
 <section>
 <h2>Top VR Accessories</h2>
-<div class="card-grid">
+        <!-- Filter by category to narrow down accessories by type -->
+        <label for="category-filter" style="display:block; margin-bottom:0.5rem; font-weight:500;">Filter by category:</label>
+        <select id="category-filter" style="width:100%; padding:0.65rem; margin-bottom:1rem; border-radius:4px; border:none; font-size:1rem;">
+            <option value="All">All Categories</option>
+            <option value="Comfort">Comfort &amp; Straps</option>
+            <option value="Audio">Audio</option>
+            <option value="Battery">Charging &amp; Battery</option>
+            <option value="Haptics">Haptics</option>
+            <option value="Controllers">Controllers &amp; Grip</option>
+            <option value="Trackers">Trackers</option>
+            <option value="Cases">Cases &amp; Protection</option>
+            <option value="Cables">Cables &amp; Wiring</option>
+            <option value="Fitness">Fitness &amp; Mats</option>
+            <option value="Misc">Misc &amp; Accessories</option>
+        </select>
+        <!-- Search input to filter accessories by name or description -->
+        <input type="text" id="search-input" placeholder="Search accessories..." style="width:100%; padding:0.75rem; margin-bottom:1.5rem; border-radius:4px; border:none; font-size:1rem;">
+<div class="card-grid" id="accessories-grid">
 <!-- 1. Weighted golf club handle -->
-<div class="card">
+<div class="card" data-category="Misc" data-name="Weighted Golf Club Attachment (DriVR Elite)">
 <h3>Weighted Golf Club Attachment (DriVR Elite)</h3>
 <ul>
 <li>Realistic golf club handle with an iron core for added heft, improving swing immersion</li>
@@ -66,7 +92,7 @@
 </ul><a class="btn" href="https://www.amazon.com/dp/B0CS35JGJK/?tag=autopromotete-20" target="_blank">Shop Now</a>
 </div>
 <!-- 2. VR gun stock -->
-<div class="card">
+<div class="card" data-category="Misc" data-name="VR Gun Stock (AMVR)">
 <h3>VR Gun Stock (AMVR)</h3>
 <ul>
 <li>Stabilizes aim and reduces jitter for better shot placement</li>
@@ -76,7 +102,7 @@
 </ul><a class="btn" href="https://www.amazon.com/dp/B0D3TFZY9D/?tag=autopromotete-20" target="_blank">Shop Now</a>
 </div>
 <!-- 3. Shadow Shot bow -->
-<div class="card">
+<div class="card" data-category="Misc" data-name="Shadow Shot VR Bow">
 <h3>Shadow Shot VR Bow</h3>
 <ul>
 <li>Actual bow accessory that attaches controllers at each end for realistic archery mechanics</li>
@@ -86,7 +112,7 @@
 </ul><a class="btn" href="https://www.amazon.com/s?k=Shadow+Shot+VR+Bow&amp;tag=autopromotete-20" target="_blank">Shop Now</a>
 </div>
 <!-- 4. SteelSeries headphones -->
-<div class="card">
+<div class="card" data-category="Audio" data-name="SteelSeries Arctis Nova 4 Headphones">
 <h3>SteelSeries Arctis Nova 4 Headphones</h3>
 <ul>
 <li>360‑degree spatial audio creates immersive soundscapes</li>
@@ -96,7 +122,7 @@
 </ul><a class="btn" href="https://www.amazon.com/s?k=SteelSeries+Arctis+Nova+4+Headphones&amp;tag=autopromotete-20" target="_blank">Shop Now</a>
 </div>
 <!-- 5. KIWI K4 Boost Comfort strap -->
-<div class="card">
+<div class="card" data-category="Comfort" data-name="KIWI Design K4 Boost Comfort Battery Strap">
 <h3>KIWI Design K4 Boost Comfort Battery Strap</h3>
 <ul>
 <li>Internal battery provides around three hours of additional playtime</li>
@@ -106,7 +132,7 @@
 </ul><a class="btn" href="https://www.amazon.com/s?k=KIWI+Design+K4+Boost+Comfort+Battery+Strap&amp;tag=autopromotete-20" target="_blank">Shop Now</a>
 </div>
 <!-- 6. AMVR stand holder -->
-<div class="card">
+<div class="card" data-category="Misc" data-name="AMVR Stand Holder">
 <h3>AMVR Stand Holder</h3>
 <ul>
 <li>Provides a snug home for VR headsets and controllers</li>
@@ -116,7 +142,7 @@
 </ul><a class="btn" href="https://www.amazon.com/s?k=AMVR+Stand+Holder&amp;tag=autopromotete-20" target="_blank">Shop Now</a>
 </div>
 <!-- 7. Weighted exercise gloves -->
-<div class="card">
+<div class="card" data-category="Fitness" data-name="Ringside Weighted Exercise Gloves">
 <h3>Ringside Weighted Exercise Gloves</h3>
 <ul>
 <li>Add resistance to VR workouts for increased muscle engagement</li>
@@ -126,7 +152,7 @@
 </ul><a class="btn" href="https://www.amazon.com/s?k=Ringside+Weighted+Exercise+Gloves&amp;tag=autopromotete-20" target="_blank">Shop Now</a>
 </div>
 <!-- 8. Skywin VR mat -->
-<div class="card">
+<div class="card" data-category="Fitness" data-name="Skywin VR Mat">
 <h3>Skywin VR Mat</h3>
 <ul>
 <li>Thick, plush mat keeps you comfortable during standing sessions</li>
@@ -136,7 +162,7 @@
 </ul><a class="btn" href="https://www.amazon.com/dp/B0DCN3H8QT/?tag=autopromotete-20" target="_blank">Shop Now</a>
 </div>
 <!-- 9. Casematix hard case -->
-<div class="card">
+<div class="card" data-category="Cases" data-name="Casematix Hard Case">
 <h3>Casematix Hard Case</h3>
 <ul>
 <li>Sturdy carrying case with foam interior protects headsets and controllers</li>
@@ -146,7 +172,7 @@
 </ul><a class="btn" href="https://www.amazon.com/s?k=Casematix+Hard+Case&amp;tag=autopromotete-20" target="_blank">Shop Now</a>
 </div>
 <!-- 10. Meta Quest link cable -->
-<div class="card">
+<div class="card" data-category="Cables" data-name="Meta Quest Link Cable">
 <h3>Meta Quest Link Cable</h3>
 <ul>
 <li>Over 16 feet long, providing ample room to move while tethered</li>
@@ -156,7 +182,7 @@
 </ul><a class="btn" href="https://www.amazon.com/s?k=Meta+Quest+Link+Cable&amp;tag=autopromotete-20" target="_blank">Shop Now</a>
 </div>
 <!-- 11. NexiGo cable management -->
-<div class="card">
+<div class="card" data-category="Cables" data-name="NexiGo VR Cable Management System">
 <h3>NexiGo VR Cable Management System</h3>
 <ul>
 <li>Ceiling hooks and adhesive fasteners keep cables off the ground</li>
@@ -166,7 +192,7 @@
 </ul><a class="btn" href="https://www.amazon.com/s?k=NexiGo+VR+Cable+Management+System&amp;tag=autopromotete-20" target="_blank">Shop Now</a>
 </div>
 <!-- 12. BOBOVR S3 Pro strap -->
-<div class="card">
+<div class="card" data-category="Comfort" data-name="BOBOVR S3 Pro Battery Strap">
 <h3>BOBOVR S3 Pro Battery Strap</h3>
 <ul>
 <li>10 000 mAh hot‑swappable battery adds 3–4 hours of playtime</li>
@@ -176,7 +202,7 @@
 </ul><a class="btn" href="https://www.amazon.com/dp/B0C5B3FMRS/?tag=autopromotete-20" target="_blank">Shop Now</a>
 </div>
 <!-- 13. BOBOVR M3 Pro strap -->
-<div class="card">
+<div class="card" data-category="Comfort" data-name="BOBOVR M3 Pro Head Strap">
 <h3>BOBOVR M3 Pro Head Strap</h3>
 <ul>
 <li>5 200 mAh battery attaches magnetically to a halo‑style strap</li>
@@ -186,7 +212,7 @@
 </ul><a class="btn" href="https://www.amazon.com/s?k=BOBOVR+M3+Pro+Head+Strap&amp;tag=autopromotete-20" target="_blank">Shop Now</a>
 </div>
 <!-- 14. KIWI K4 Duo audio & battery strap -->
-<div class="card">
+<div class="card" data-category="Comfort" data-name="KIWI Design K4 Duo Audio & Battery Strap">
 <h3>KIWI Design K4 Duo Audio &amp; Battery Strap</h3>
 <ul>
 <li>Integrated rear battery and directional speakers eliminate audio lag</li>
@@ -196,7 +222,7 @@
 </ul><a class="btn" href="https://www.amazon.com/dp/B0D4TGY2F2/?tag=autopromotete-20" target="_blank">Shop Now</a>
 </div>
 <!-- 15. Woojer Vest 3 -->
-<div class="card">
+<div class="card" data-category="Haptics" data-name="Woojer Vest 3 Haptic Vest">
 <h3>Woojer Vest 3 Haptic Vest</h3>
 <ul>
 <li>Six oscillators deliver physical sensations in sync with VR audio</li>
@@ -206,7 +232,7 @@
 </ul><a class="btn" href="https://www.amazon.com/s?k=Woojer+Vest+3+Haptic+Vest&amp;tag=autopromotete-20" target="_blank">Shop Now</a>
 </div>
 <!-- 16. PrismXR low‑latency earphones -->
-<div class="card">
+<div class="card" data-category="Audio" data-name="PRISMXR Low-Latency Earphones">
 <h3>PRISMXR Low‑Latency Earphones</h3>
 <ul>
 <li>Ultra‑thin design fits under VR headsets without pressure points</li>
@@ -216,7 +242,7 @@
 </ul><a class="btn" href="https://www.amazon.com/s?k=PRISMXR+LowLatency+Earphones&amp;tag=autopromotete-20" target="_blank">Shop Now</a>
 </div>
 <!-- 17. KIWI V4 facial interface -->
-<div class="card">
+<div class="card" data-category="Comfort" data-name="KIWI Design V4 Facial Interface">
 <h3>KIWI Design V4 Facial Interface</h3>
 <ul>
 <li>Magnetic PU‑leather pads are easy to swap for hygiene</li>
@@ -226,7 +252,7 @@
 </ul><a class="btn" href="https://www.amazon.com/s?k=KIWI+Design+V4+Facial+Interface&amp;tag=autopromotete-20" target="_blank">Shop Now</a>
 </div>
 <!-- 18. Aubika mini case -->
-<div class="card">
+<div class="card" data-category="Cases" data-name="Aubika Mini Case">
 <h3>Aubika Mini Case</h3>
 <ul>
 <li>Compact case protects your VR headset during travel</li>
@@ -236,7 +262,7 @@
 </ul><a class="btn" href="https://www.amazon.com/s?k=Aubika+Mini+Case&amp;tag=autopromotete-20" target="_blank">Shop Now</a>
 </div>
 <!-- 19. KIWI lens protector -->
-<div class="card">
+<div class="card" data-category="Cases" data-name="KIWI Lens Protector">
 <h3>KIWI Lens Protector</h3>
 <ul>
 <li>Fits multiple headsets including Quest 3 and Quest 2</li>
@@ -246,7 +272,7 @@
 </ul><a class="btn" href="https://www.amazon.com/s?k=KIWI+Lens+Protector&amp;tag=autopromotete-20" target="_blank">Shop Now</a>
 </div>
 <!-- 20. Eslick charging station -->
-<div class="card">
+<div class="card" data-category="Battery" data-name="Eslick Charging Station">
 <h3>Eslick Charging Station</h3>
 <ul>
 <li>Magnetic charging cable provides 30 W fast charging</li>
@@ -256,7 +282,7 @@
 </ul><a class="btn" href="https://www.amazon.com/s?k=Eslick+Charging+Station&amp;tag=autopromotete-20" target="_blank">Shop Now</a>
 </div>
 <!-- 21. PrismXR Carina D1 charging dock -->
-<div class="card">
+<div class="card" data-category="Battery" data-name="PRISMXR Carina D1 Charging Dock">
 <h3>PRISMXR Carina D1 Charging Dock</h3>
 <ul>
 <li>Premium dock charges the headset and controllers simultaneously using magnetic pins</li>
@@ -266,7 +292,7 @@
 </ul><a class="btn" href="https://www.amazon.com/s?k=PRISMXR+Carina+D1+Charging+Dock&amp;tag=autopromotete-20" target="_blank">Shop Now</a>
 </div>
 <!-- 22. YOGES charging station -->
-<div class="card">
+<div class="card" data-category="Battery" data-name="YOGES Charging Station">
 <h3>YOGES Charging Station</h3>
 <ul>
 <li>Includes rechargeable controller batteries, eliminating disposable AAs</li>
@@ -276,7 +302,7 @@
 </ul><a class="btn" href="https://www.amazon.com/s?k=YOGES+Charging+Station&amp;tag=autopromotete-20" target="_blank">Shop Now</a>
 </div>
 <!-- 23. Syntech 16 ft link cable -->
-<div class="card">
+<div class="card" data-category="Cables" data-name="Syntech 16 ft Link Cable">
 <h3>Syntech 16 ft Link Cable</h3>
 <ul>
 <li>16‑foot cable with a separate charging port for continuous power during PC VR sessions</li>
@@ -286,7 +312,7 @@
 </ul><a class="btn" href="https://www.amazon.com/s?k=Syntech+16+ft+Link+Cable&amp;tag=autopromotete-20" target="_blank">Shop Now</a>
 </div>
 <!-- 24. Arcade2TV‑XR arcade setup -->
-<div class="card">
+<div class="card" data-category="Misc" data-name="Arcade2TV-XR Arcade Setup">
 <h3>Arcade2TV‑XR Arcade Setup</h3>
 <ul>
 <li>Tankstick‑style joystick and buttons create a retro arcade feel</li>
@@ -296,7 +322,7 @@
 </ul><a class="btn" href="https://www.amazon.com/s?k=Arcade2TVXR+Arcade+Setup&amp;tag=autopromotete-20" target="_blank">Shop Now</a>
 </div>
 <!-- 25. VR covers -->
-<div class="card">
+<div class="card" data-category="Comfort" data-name="VR Covers">
 <h3>VR Covers</h3>
 <ul>
 <li>Soft covers prevent skin irritation and absorb sweat during VR sessions</li>
@@ -306,7 +332,7 @@
 </ul><a class="btn" href="https://www.amazon.com/s?k=VR+Covers&amp;tag=autopromotete-20" target="_blank">Shop Now</a>
 </div>
 <!-- 26. CaptoGlove VR gloves -->
-<div class="card">
+<div class="card" data-category="Controllers" data-name="CaptoGlove VR Gloves">
 <h3>CaptoGlove VR Gloves</h3>
 <ul>
 <li>Provide realistic touch sensation and hand gesture tracking</li>
@@ -316,7 +342,7 @@
 </ul><a class="btn" href="https://www.amazon.com/s?k=CaptoGlove+VR+Gloves&amp;tag=autopromotete-20" target="_blank">Shop Now</a>
 </div>
 <!-- 27. bHaptics TactSuit X16 -->
-<div class="card">
+<div class="card" data-category="Haptics" data-name="bHaptics TactSuit X16">
 <h3>bHaptics TactSuit X16</h3>
 <ul>
 <li>Lightweight haptic vest with 16 vibration motors</li>
@@ -326,7 +352,7 @@
 </ul><a class="btn" href="https://www.amazon.com/dp/B0CKXXTY1S/?tag=autopromotete-20" target="_blank">Shop Now</a>
 </div>
 <!-- 28. VR lens inserts -->
-<div class="card">
+<div class="card" data-category="Cases" data-name="VR Lens Inserts">
 <h3>VR Lens Inserts</h3>
 <ul>
 <li>Protect headset lenses from scratches, fingerprints and harmful light</li>
@@ -336,7 +362,7 @@
 </ul><a class="btn" href="https://www.amazon.com/s?k=VR+Lens+Inserts&amp;tag=autopromotete-20" target="_blank">Shop Now</a>
 </div>
 <!-- 29. Microfiber cloth -->
-<div class="card">
+<div class="card" data-category="Misc" data-name="Microfiber Cloth">
 <h3>Microfiber Cloth</h3>
 <ul>
 <li>High‑quality cloth cleans VR lenses without scratching</li>
@@ -346,7 +372,7 @@
 </ul><a class="btn" href="https://www.amazon.com/s?k=Microfiber+Cloth&amp;tag=autopromotete-20" target="_blank">Shop Now</a>
 </div>
 <!-- 30. Googly eyes -->
-<div class="card">
+<div class="card" data-category="Misc" data-name="Googly Eyes">
 <h3>Googly Eyes</h3>
 <ul>
 <li>Decorative accessory attaches to the front of a headset for fun</li>
@@ -356,7 +382,7 @@
 </ul><a class="btn" href="https://www.amazon.com/s?k=Googly+Eyes&amp;tag=autopromotete-20" target="_blank">Shop Now</a>
 </div>
 <!-- 31. Grip covers with knuckle strap -->
-<div class="card">
+<div class="card" data-category="Controllers" data-name="Grip Covers with Knuckle Strap">
 <h3>Grip Covers with Knuckle Strap</h3>
 <ul>
 <li>Prevent controllers from slipping or being thrown during intense games</li>
@@ -366,7 +392,7 @@
 </ul><a class="btn" href="https://www.amazon.com/s?k=Grip+Covers+with+Knuckle+Strap&amp;tag=autopromotete-20" target="_blank">Shop Now</a>
 </div>
 <!-- 32. External battery pack -->
-<div class="card">
+<div class="card" data-category="Battery" data-name="External Battery Pack">
 <h3>External Battery Pack</h3>
 <ul>
 <li>Extends playtime by providing additional power to the headset</li>
@@ -376,7 +402,7 @@
 </ul><a class="btn" href="https://www.amazon.com/s?k=External+Battery+Pack&amp;tag=autopromotete-20" target="_blank">Shop Now</a>
 </div>
 <!-- 33. Headset stand -->
-<div class="card">
+<div class="card" data-category="Misc" data-name="Headset Stand">
 <h3>Headset Stand</h3>
 <ul>
 <li>Provides a dedicated place to store and display VR headsets and controllers</li>
@@ -386,7 +412,7 @@
 </ul><a class="btn" href="https://www.amazon.com/s?k=Headset+Stand&amp;tag=autopromotete-20" target="_blank">Shop Now</a>
 </div>
 <!-- 34. Long USB‑C cord -->
-<div class="card">
+<div class="card" data-category="Cables" data-name="Long USB-C Cord">
 <h3>Long USB‑C Cord</h3>
 <ul>
 <li>Enables access to PC‑based VR games through a long cable</li>
@@ -396,7 +422,7 @@
 </ul><a class="btn" href="https://www.amazon.com/s?k=Long+USBC+Cord&amp;tag=autopromotete-20" target="_blank">Shop Now</a>
 </div>
 <!-- 35. Headset strap pads -->
-<div class="card">
+<div class="card" data-category="Comfort" data-name="Headset Strap Pads">
 <h3>Headset Strap Pads</h3>
 <ul>
 <li>Add comfort and reduce head pressure during long sessions</li>
@@ -406,7 +432,7 @@
 </ul><a class="btn" href="https://www.amazon.com/s?k=Headset+Strap+Pads&amp;tag=autopromotete-20" target="_blank">Shop Now</a>
 </div>
 <!-- 36. Table tennis paddle grip -->
-<div class="card">
+<div class="card" data-category="Misc" data-name="Table Tennis Paddle Grip">
 <h3>Table Tennis Paddle Grip</h3>
 <ul>
 <li>Replicates the grip and orientation of a real ping‑pong paddle for games like Eleven Table Tennis</li>
@@ -416,7 +442,7 @@
 </ul><a class="btn" href="https://www.amazon.com/s?k=Table+Tennis+Paddle+Grip&amp;tag=autopromotete-20" target="_blank">Shop Now</a>
 </div>
 <!-- 37. PrismXR Carina W1 charging belt -->
-<div class="card">
+<div class="card" data-category="Battery" data-name="PRISMXR Carina W1 Charging Belt">
 <h3>PRISMXR Carina W1 Charging Belt</h3>
 <ul>
 <li>Wearable 10 000 mAh battery pack worn around the waist to extend playtime</li>
@@ -426,7 +452,7 @@
 </ul><a class="btn" href="https://www.amazon.com/s?k=PRISMXR+Carina+W1+Charging+Belt&amp;tag=autopromotete-20" target="_blank">Shop Now</a>
 </div>
 <!-- 38. Razer Hammerhead Hyperspeed earbuds -->
-<div class="card">
+<div class="card" data-category="Audio" data-name="Razer Hammerhead HyperSpeed Earbuds">
 <h3>Razer Hammerhead HyperSpeed Earbuds</h3>
 <ul>
 <li>Dual wireless connections let you pair with both phone and VR headset</li>
@@ -436,7 +462,7 @@
 </ul><a class="btn" href="https://www.amazon.com/s?k=Razer+Hammerhead+HyperSpeed+Earbuds&amp;tag=autopromotete-20" target="_blank">Shop Now</a>
 </div>
 <!-- 39. Syntech right‑angle link cable -->
-<div class="card">
+<div class="card" data-category="Cables" data-name="Syntech Right-Angle Link Cable">
 <h3>Syntech Right‑Angle Link Cable</h3>
 <ul>
 <li>Right‑angle USB‑C connector fits neatly into Quest headsets</li>
@@ -446,7 +472,7 @@
 </ul><a class="btn" href="https://www.amazon.com/s?k=Syntech+RightAngle+Link+Cable&amp;tag=autopromotete-20" target="_blank">Shop Now</a>
 </div>
 <!-- 40. KIWI Comfort battery head strap -->
-<div class="card">
+<div class="card" data-category="Comfort" data-name="KIWI Design Comfort Battery Head Strap">
 <h3>KIWI Design Comfort Battery Head Strap</h3>
 <ul>
 <li>Plush cushioning improves comfort and fit</li>
@@ -456,7 +482,7 @@
 </ul><a class="btn" href="https://www.amazon.com/s?k=KIWI+Design+Comfort+Battery+Head+Strap&amp;tag=autopromotete-20" target="_blank">Shop Now</a>
 </div>
 <!-- 41. VIVE Ultimate Tracker -->
-<div class="card">
+<div class="card" data-category="Trackers" data-name="VIVE Ultimate Tracker">
 <h3>VIVE Ultimate Tracker</h3>
 <ul>
 <li>Inside‑out 6DoF tracking uses two wide‑angle cameras, eliminating the need for external base stations</li>
@@ -466,7 +492,7 @@
 </ul><a class="btn" href="https://www.amazon.com/s?k=VIVE+Ultimate+Tracker&amp;tag=autopromotete-20" target="_blank">Shop Now</a>
 </div>
 <!-- 42. VIVE Tracker 3.0 -->
-<div class="card">
+<div class="card" data-category="Trackers" data-name="VIVE Tracker 3.0">
 <h3>VIVE Tracker 3.0</h3>
 <ul>
 <li>Utilizes Lighthouse tracking for high precision</li>
@@ -476,7 +502,7 @@
 </ul><a class="btn" href="https://www.amazon.com/s?k=VIVE+Tracker+30&amp;tag=autopromotete-20" target="_blank">Shop Now</a>
 </div>
 <!-- 43. Tundra Tracker -->
-<div class="card">
+<div class="card" data-category="Trackers" data-name="Tundra Tracker">
 <h3>Tundra Tracker</h3>
 <ul>
 <li>Lightweight design (46–50 g) for comfortable wear</li>
@@ -486,7 +512,7 @@
 </ul><a class="btn" href="https://www.amazon.com/s?k=Tundra+Tracker&amp;tag=autopromotete-20" target="_blank">Shop Now</a>
 </div>
 <!-- 44. Sony Mocopi -->
-<div class="card">
+<div class="card" data-category="Trackers" data-name="Sony Mocopi">
 <h3>Sony Mocopi</h3>
 <ul>
 <li>Uses inertial measurement units (IMUs) for body tracking</li>
@@ -496,7 +522,7 @@
 </ul><a class="btn" href="https://www.amazon.com/s?k=Sony+Mocopi&amp;tag=autopromotete-20" target="_blank">Shop Now</a>
 </div>
 <!-- 45. SlimeVR trackers -->
-<div class="card">
+<div class="card" data-category="Trackers" data-name="SlimeVR Trackers">
 <h3>SlimeVR Trackers</h3>
 <ul>
 <li>Weigh around 50 g and offer approximately 15 hours of battery life</li>
@@ -506,7 +532,7 @@
 </ul><a class="btn" href="https://www.amazon.com/s?k=SlimeVR+Trackers&amp;tag=autopromotete-20" target="_blank">Shop Now</a>
 </div>
 <!-- 46. HaritoraX tracker -->
-<div class="card">
+<div class="card" data-category="Trackers" data-name="HaritoraX">
 <h3>HaritoraX</h3>
 <ul>
 <li>Lightweight tracker (~17 g) with a long 20‑hour battery life</li>
@@ -516,7 +542,7 @@
 </ul><a class="btn" href="https://www.amazon.com/s?k=HaritoraX&amp;tag=autopromotete-20" target="_blank">Shop Now</a>
 </div>
 <!-- 47. PlayStation VR Aim Controller -->
-<div class="card">
+<div class="card" data-category="Controllers" data-name="PlayStation VR Aim Controller">
 <h3>PlayStation VR Aim Controller</h3>
 <ul>
 <li>Integrates every button from a DualShock 4 into a gun‑shaped design</li>
@@ -526,7 +552,7 @@
 </ul><a class="btn" href="https://www.amazon.com/s?k=PlayStation+VR+Aim+Controller&amp;tag=autopromotete-20" target="_blank">Shop Now</a>
 </div>
 <!-- 48. Roto VR Explorer chair -->
-<div class="card">
+<div class="card" data-category="Misc" data-name="Roto VR Explorer Chair">
 <h3>Roto VR Explorer Chair</h3>
 <ul>
 <li>Swivel chair rotates in sync with head movements to align your body with the virtual view</li>
@@ -536,7 +562,7 @@
 </ul><a class="btn" href="https://www.amazon.com/s?k=Roto+VR+Explorer+Chair&amp;tag=autopromotete-20" target="_blank">Shop Now</a>
 </div>
 <!-- 49. KIWI RGB charging dock -->
-<div class="card">
+<div class="card" data-category="Battery" data-name="KIWI Design RGB Charging Dock">
 <h3>KIWI Design RGB Charging Dock</h3>
 <ul>
 <li>Charges the headset and controllers simultaneously while doubling as a display stand</li>
@@ -546,7 +572,7 @@
 </ul><a class="btn" href="https://www.amazon.com/s?k=KIWI+Design+RGB+Charging+Dock&amp;tag=autopromotete-20" target="_blank">Shop Now</a>
 </div>
 <!-- 50. KIWI K4 Mini head strap -->
-<div class="card">
+<div class="card" data-category="Comfort" data-name="KIWI Design K4 Mini Head Strap">
 <h3>KIWI Design K4 Mini Head Strap</h3>
 <ul>
 <li>Design avoids pressure on your ears and pivots for easy adjustment</li>
@@ -563,5 +589,9 @@
             As an Amazon Associate, purchases made through product links may earn a commission at no extra cost to you.
         </p>
 </section>
+        <!-- Load VanillaTilt from CDN for 3D card effects -->
+        <script src="https://cdn.jsdelivr.net/npm/vanilla-tilt@1.7.3/dist/vanilla-tilt.min.js"></script>
+        <!-- Custom script for interactive features (tilt effects and search filter) -->
+        <script src="js/script.js"></script>
 </body>
 </html>
