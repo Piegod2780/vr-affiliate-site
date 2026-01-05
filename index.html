@@ -12,6 +12,8 @@
     <h1>VR Gear &amp; Accessories</h1>
     <!-- Theme toggle button to switch between dark and light mode -->
     <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme">🌓</button>
+    <!-- Font size slider to adjust text size -->
+    <input type="range" id="font-size-slider" min="0.8" max="1.4" step="0.05" value="1" title="Adjust text size" style="margin-left:1rem;">
 </header>
 <!-- Hero section with tagline but no external call‑to‑action -->
 <section class="hero">
@@ -59,6 +61,11 @@
     <div class="card-grid" id="trending-list">
         <!-- Trending items will be injected here via JavaScript -->
     </div>
+    <!-- Category popularity chart -->
+    <h3 id="category-chart-heading" style="margin-top:1.5rem; display:none;">Category Popularity</h3>
+    <div class="chart-container" style="width:100%; max-width:600px; margin:0 auto; display:none;">
+        <canvas id="category-chart" height="200"></canvas>
+    </div>
 </section>
 
 <!-- Favorites section for user‑selected items -->
@@ -100,7 +107,9 @@
         <!-- Search input to filter accessories by name or description -->
         <input type="text" id="search-input" placeholder="Search accessories..." style="width:100%; padding:0.75rem; margin-bottom:1rem; border-radius:4px; border:none; font-size:1rem;">
         <!-- Surprise me button to pick a random accessory -->
-        <button id="surprise-btn" class="surprise-btn" style="display:block; margin-bottom:1.5rem; padding:0.65rem 1rem; border-radius:4px; background-color:#444; color:#fff; font-weight:600; border:none; cursor:pointer; width:100%;">Surprise Me</button>
+        <button id="surprise-btn" class="surprise-btn" style="display:block; margin-bottom:1rem; padding:0.65rem 1rem; border-radius:4px; background-color:#444; color:#fff; font-weight:600; border:none; cursor:pointer; width:100%;">Surprise Me</button>
+        <!-- Voice search button to use speech recognition for search queries -->
+        <button id="voice-search-btn" class="voice-btn" style="display:block; margin-bottom:1.5rem; padding:0.65rem 1rem; border-radius:4px; background-color:#444; color:#fff; font-weight:600; border:none; cursor:pointer; width:100%;">🎤 Voice Search</button>
 <div class="card-grid" id="accessories-grid">
 <!-- 1. Weighted golf club handle -->
 <div class="card" data-category="Misc" data-name="Weighted Golf Club Attachment (DriVR Elite)">
@@ -612,7 +621,9 @@
 </section>
         <!-- Load VanillaTilt from CDN for 3D card effects -->
         <script src="https://cdn.jsdelivr.net/npm/vanilla-tilt@1.7.3/dist/vanilla-tilt.min.js"></script>
-        <!-- Custom script for interactive features (tilt effects and search filter) -->
-        <script src="js/script.js"></script>
+        <!-- Load Chart.js from CDN for category popularity chart -->
+        <script src="https://cdn.jsdelivr.net/npm/chart.js@4.3.0/dist/chart.umd.min.js"></script>
+        <!-- Custom script for interactive features (tilt effects, search filter, favorites and more) -->
+        <script src="script.js"></script>
 </body>
 </html>
