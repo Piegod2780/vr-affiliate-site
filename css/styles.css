@@ -30,6 +30,7 @@ header {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    flex-wrap: wrap;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
 }
 
@@ -608,6 +609,48 @@ body.light-theme .compare-icon.selected {
 }
 .light-theme .memory-card.flip {
     background-color: #fff;
+}
+
+/* Responsive adjustments for mobile screens */
+@media (max-width: 768px) {
+    header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    header h1 {
+        margin-bottom: 0.5rem;
+    }
+    /* Place theme toggle on its own row */
+    .theme-toggle {
+        margin-left: 0;
+        margin-top: 0.5rem;
+    }
+    /* Expand font size slider to full width on small screens */
+    #font-size-slider {
+        margin-left: 0;
+        margin-top: 0.5rem;
+        width: 100%;
+    }
+    .scoreboard {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+        margin-left: 0;
+        margin-top: 0.5rem;
+    }
+    /* Reduce card grid column width for small screens */
+    .card-grid {
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    }
+    /* Shrink memory game cards and grid */
+    .memory-game-grid {
+        grid-template-columns: repeat(auto-fit, minmax(50px, 1fr));
+    }
+    .memory-card {
+        width: 50px;
+        height: 50px;
+        font-size: 1.5rem;
+    }
 }
 @keyframes confetti-fall {
     0% {
