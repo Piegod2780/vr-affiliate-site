@@ -60,6 +60,25 @@
         <!-- Trending items will be injected here via JavaScript -->
     </div>
 </section>
+
+<!-- Favorites section for user‑selected items -->
+<section id="favorites-section" style="display:none;">
+    <h2>Your Favorites</h2>
+    <div class="card-grid" id="favorites-list">
+        <!-- Favorite items will be injected here via JavaScript -->
+    </div>
+</section>
+
+<!-- Quick view modal overlay -->
+<div id="quick-view-modal" class="modal" style="display:none;">
+    <div class="modal-content">
+        <span class="close-modal" aria-label="Close modal">&times;</span>
+        <div id="quick-view-content"></div>
+    </div>
+</div>
+
+<!-- Scroll to top button -->
+<button id="scroll-top" class="scroll-top" aria-label="Back to top" style="display:none;">↑</button>
 <!-- Top VR accessories section listing 50 of the most popular add‑ons -->
 <section>
 <h2>Top VR Accessories</h2>
@@ -79,7 +98,9 @@
             <option value="Misc">Misc &amp; Accessories</option>
         </select>
         <!-- Search input to filter accessories by name or description -->
-        <input type="text" id="search-input" placeholder="Search accessories..." style="width:100%; padding:0.75rem; margin-bottom:1.5rem; border-radius:4px; border:none; font-size:1rem;">
+        <input type="text" id="search-input" placeholder="Search accessories..." style="width:100%; padding:0.75rem; margin-bottom:1rem; border-radius:4px; border:none; font-size:1rem;">
+        <!-- Surprise me button to pick a random accessory -->
+        <button id="surprise-btn" class="surprise-btn" style="display:block; margin-bottom:1.5rem; padding:0.65rem 1rem; border-radius:4px; background-color:#444; color:#fff; font-weight:600; border:none; cursor:pointer; width:100%;">Surprise Me</button>
 <div class="card-grid" id="accessories-grid">
 <!-- 1. Weighted golf club handle -->
 <div class="card" data-category="Misc" data-name="Weighted Golf Club Attachment (DriVR Elite)">
