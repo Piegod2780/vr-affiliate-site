@@ -33,6 +33,21 @@ header h1 {
     letter-spacing: 1px;
 }
 
+/* Theme toggle button */
+.theme-toggle {
+    background: none;
+    border: none;
+    color: #f5f5f5;
+    font-size: 1.4rem;
+    cursor: pointer;
+    margin-left: auto;
+}
+
+/* Adjust button color in light theme */
+body.light-theme .theme-toggle {
+    color: #1e2228;
+}
+
 /* Hero section */
 .hero {
     position: relative;
@@ -156,6 +171,54 @@ section h2 {
 }
 
 .card .btn:hover {
+    background-color: #005fcc;
+}
+
+/* Light theme overrides */
+body.light-theme {
+    background-color: #f2f4f8;
+    color: #1e2228;
+}
+
+body.light-theme header {
+    background-color: #ffffff;
+    color: #1e2228;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+body.light-theme .hero {
+    color: #fff;
+}
+
+body.light-theme .hero::after {
+    background: rgba(0, 0, 0, 0.35);
+}
+
+body.light-theme section h2 {
+    color: #1e2228;
+    border-color: #0077ff;
+}
+
+body.light-theme .card {
+    background-color: #ffffff;
+    color: #1e2228;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+body.light-theme .card h3 {
+    color: #0077ff;
+}
+
+body.light-theme .card ul li {
+    color: #333333;
+}
+
+body.light-theme .card .btn {
+    background-color: #0077ff;
+    color: #ffffff;
+}
+
+body.light-theme .card .btn:hover {
     background-color: #005fcc;
 }
 
