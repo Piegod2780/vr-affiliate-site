@@ -102,6 +102,23 @@
     <!-- Confetti container for celebration effects -->
     <div id="confetti-container" class="confetti-container" style="pointer-events:none;"></div>
 
+    <!-- Memory Match Game section -->
+    <section id="memory-game-section" style="margin-top:2rem;">
+        <h2>Memory Match Game</h2>
+        <p>Test your memory by matching pairs of VR‑themed icons. Complete the game to earn bonus points and achievements!</p>
+        <button id="start-memory-game" class="btn">Play Memory Game</button>
+    </section>
+
+    <!-- Memory Match Game modal overlay -->
+    <div id="memory-game-modal" class="modal" style="display:none;">
+        <div class="modal-content">
+            <span id="close-memory-game" class="close-modal" aria-label="Close Memory Game">&times;</span>
+            <h3>Memory Match Game</h3>
+            <div id="memory-game-board" class="memory-game-grid"></div>
+            <button id="restart-memory-game" class="btn" style="margin-top:10px; display:none;">Play Again</button>
+        </div>
+    </div>
+
 <!-- Quick view modal overlay -->
 <div id="quick-view-modal" class="modal" style="display:none;">
     <div class="modal-content">
