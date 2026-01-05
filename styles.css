@@ -5,6 +5,12 @@
     padding: 0;
 }
 
+/* Color variables for dynamic theming */
+:root {
+    --accent-color: #0077ff;
+    --accent-color-hover: #005fcc;
+}
+
 body {
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
     background-color: #121417;
@@ -94,7 +100,7 @@ body.light-theme .theme-toggle {
 .hero-content .cta-btn {
     display: inline-block;
     padding: 0.75rem 1.5rem;
-    background-color: #0077ff;
+    background-color: var(--accent-color);
     color: #fff;
     border-radius: 4px;
     font-weight: 600;
@@ -102,7 +108,7 @@ body.light-theme .theme-toggle {
 }
 
 .hero-content .cta-btn:hover {
-    background-color: #005fcc;
+    background-color: var(--accent-color-hover);
 }
 
 /* Sections */
@@ -116,7 +122,7 @@ section h2 {
     font-size: 2rem;
     margin-bottom: 1.5rem;
     color: #fff;
-    border-left: 4px solid #0077ff;
+    border-left: 4px solid var(--accent-color);
     padding-left: 0.75rem;
 }
 
@@ -163,7 +169,7 @@ section h2 {
 .card .btn {
     align-self: flex-start;
     padding: 0.6rem 1.2rem;
-    background-color: #0077ff;
+    background-color: var(--accent-color);
     color: #fff;
     border-radius: 4px;
     font-weight: 600;
@@ -171,7 +177,7 @@ section h2 {
 }
 
 .card .btn:hover {
-    background-color: #005fcc;
+    background-color: var(--accent-color-hover);
 }
 
 /* Favorite icon inside card */
@@ -242,7 +248,7 @@ section h2 {
     position: fixed;
     bottom: 1.5rem;
     right: 1.5rem;
-    background-color: #0077ff;
+    background-color: var(--accent-color);
     color: #fff;
     border: none;
     border-radius: 50%;
@@ -257,7 +263,7 @@ section h2 {
     z-index: 1001;
 }
 .scroll-top:hover {
-    background-color: #005fcc;
+    background-color: var(--accent-color-hover);
 }
 
 /* Voice search button */
@@ -281,6 +287,34 @@ section h2 {
 #font-size-slider {
     width: 120px;
     margin-left: 1rem;
+}
+
+/* Scoreboard container for displaying user points and achievements */
+.scoreboard {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-left: 1rem;
+    color: inherit;
+    font-size: 0.9rem;
+}
+.scoreboard span {
+    font-size: 0.9rem;
+}
+.scoreboard #score-value {
+    font-weight: bold;
+}
+.scoreboard label {
+    margin-left: 1rem;
+    font-size: 0.9rem;
+}
+#color-picker {
+    margin-left: 0.25rem;
+    width: 32px;
+    height: 32px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
 }
 
 /* Chart container styling */
@@ -323,11 +357,11 @@ body.light-theme .favorite-icon.favorited {
     color: #ffcc00;
 }
 body.light-theme .scroll-top {
-    background-color: #0077ff;
+    background-color: var(--accent-color);
     color: #ffffff;
 }
 body.light-theme .scroll-top:hover {
-    background-color: #005fcc;
+    background-color: var(--accent-color-hover);
 }
 
 /* Light theme overrides */
@@ -352,7 +386,7 @@ body.light-theme .hero::after {
 
 body.light-theme section h2 {
     color: #1e2228;
-    border-color: #0077ff;
+    border-color: var(--accent-color);
 }
 
 body.light-theme .card {
@@ -362,7 +396,7 @@ body.light-theme .card {
 }
 
 body.light-theme .card h3 {
-    color: #0077ff;
+    color: var(--accent-color);
 }
 
 body.light-theme .card ul li {
@@ -370,12 +404,12 @@ body.light-theme .card ul li {
 }
 
 body.light-theme .card .btn {
-    background-color: #0077ff;
+    background-color: var(--accent-color);
     color: #ffffff;
 }
 
 body.light-theme .card .btn:hover {
-    background-color: #005fcc;
+    background-color: var(--accent-color-hover);
 }
 
 /* Accessories section image */
@@ -384,4 +418,169 @@ body.light-theme .card .btn:hover {
     max-width: 100%;
     border-radius: 8px;
     margin-bottom: 1.5rem;
+}
+
+/* Quiz button style */
+.quiz-btn {
+    display: block;
+    margin-top: 1rem;
+    padding: 0.65rem 1rem;
+    background-color: #444;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    font-weight: 600;
+    cursor: pointer;
+    width: 100%;
+    transition: background-color 0.2s ease-in-out;
+}
+.quiz-btn:hover {
+    background-color: #555;
+}
+body.light-theme .quiz-btn {
+    background-color: #e0e0e0;
+    color: #1e2228;
+}
+body.light-theme .quiz-btn:hover {
+    background-color: #cccccc;
+}
+
+/* Compare bar and button */
+.compare-bar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: var(--accent-color);
+    color: #fff;
+    padding: 0.75rem 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    z-index: 1002;
+    box-shadow: 0 -2px 6px rgba(0, 0, 0, 0.4);
+}
+.compare-btn {
+    background-color: #ffffff;
+    color: var(--accent-color);
+    border: none;
+    border-radius: 4px;
+    padding: 0.5rem 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out;
+}
+.compare-btn:hover {
+    background-color: #e0e0e0;
+}
+body.light-theme .compare-bar {
+    background-color: var(--accent-color);
+    color: #ffffff;
+}
+body.light-theme .compare-btn {
+    background-color: #ffffff;
+    color: var(--accent-color);
+}
+body.light-theme .compare-btn:hover {
+    background-color: #cccccc;
+}
+
+/* Compare icon */
+.compare-icon {
+    position: absolute;
+    top: 0.5rem;
+    left: 0.5rem;
+    font-size: 1.2rem;
+    cursor: pointer;
+    color: #888888;
+    transition: color 0.2s ease-in-out;
+}
+.compare-icon.selected {
+    color: #00cc66;
+}
+body.light-theme .compare-icon {
+    color: #666666;
+}
+body.light-theme .compare-icon.selected {
+    color: #00aa55;
+}
+
+/* Compare content for modal */
+.compare-content {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+.compare-content .card {
+    flex: 1 1 45%;
+}
+
+/* =========================== */
+/* Achievements & Confetti    */
+/* =========================== */
+
+/* Container for achievements badges */
+.achievement-board {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-top: 1rem;
+}
+
+/* Individual achievement badge */
+.achievement {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.4rem 0.8rem;
+    border-radius: 8px;
+    background-color: #222;
+    color: #fff;
+    font-size: 0.85rem;
+    user-select: none;
+    transition: transform 0.2s;
+}
+.achievement:hover {
+    transform: scale(1.05);
+}
+.achievement.locked {
+    opacity: 0.4;
+    background-color: #333;
+}
+
+/* Light theme overrides for achievements */
+.light-theme .achievement {
+    background-color: #f0f0f0;
+    color: #222;
+}
+.light-theme .achievement.locked {
+    background-color: #e0e0e0;
+}
+
+/* Confetti container overlay */
+.confetti-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    pointer-events: none;
+    z-index: 9999;
+}
+.confetti-piece {
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    opacity: 0.8;
+    animation: confetti-fall 3s linear forwards;
+}
+@keyframes confetti-fall {
+    0% {
+        transform: translateY(-100vh) rotate(0deg);
+    }
+    100% {
+        transform: translateY(100vh) rotate(720deg);
+    }
 }
